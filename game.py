@@ -13,24 +13,26 @@ import os.path
 
 class SuperTicTacToe:
 
-    def __init__(self, rows = 3, cols = 3, numPlayers = 2):
+    def __init__(self, rows = 3, cols = 3, numPlayers = 2, versbose = 2):
         self.size = rows * cols
         self.grid = [ SubBoard() for col in range(rows * cols) ]
         self.numPlayers = numPlayers
         self.turn = 0
         self.currBigBoard = 0
+        verbose = 2
 
 
     def get_user_action(self, boardName, is_open):
         while True:
             print("Which " +  boardName + " tile do you want to play in (1-9)?")
             action = raw_input(':')
-            num = int(action) - 1
-            if (num <= 8 and num >= 0):
-                if (is_open(num)):
-                    return num
-                else:
-                    print ("Error! Spot already taken")
+            num = int(action)
+            if (num != None and num <= 9 and num >= 1):
+                    num -= 1
+                    if (is_open(num)):
+                        return num
+                    else:
+                        print ("Error! Spot already taken")
             else:
                 print("Error! Please enter an integer (1-9)")
 
@@ -44,7 +46,6 @@ class SuperTicTacToe:
     def play(self):
         while (self.is_end() != True):
             self.move()
-        print ()
 
     #updates the state of the board based on the last move
     def update(self, big_val, small_val):
@@ -54,12 +55,15 @@ class SuperTicTacToe:
         self.turn = 0 if self.turn == 1 else 1
         self.currBigBoard = small_val
 
+    #prompts for a move and
     def move(self):
-        self.printBoard()
+        if (versbose == 2):
+            self.printBoard()
         small_board = self.grid[self.currBigBoard]
         print("You need to play in square "+ str(self.currBigBoard + 1) + " of the big board")
         small_val = self.get_user_action("Small Board", small_board.is_open)
         self.update(self.currBigBoard, small_val)
+
 
     def is_end(self):
         winners = [ board.winner for board in self.grid ]
