@@ -12,5 +12,9 @@ class RandomAgent:
     def __init__(seed = 221):
         self.rand = random.seed(seed)
 
+    def start(self):
+        return (self.rand.randint(0, 9), self.rand.randint(0, 9))
+
     def chooseMove(self, actions):
-        return actions[self.rand.randint(0, len(actions))
+        move = actions[self.rand.randint(0, len(actions))]
+        return move[0], move[1]

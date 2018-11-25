@@ -37,10 +37,15 @@ class SuperTicTacToe:
                 print("Error! Please enter an integer (1-9)")
 
     def get_actions(self):
-        return self.grid[self.currBigBoard].get_actions()
-
-
-
+        actions = [ (self.currBigBoard, move) for move in self.grid[self.currBigBoard].get_actions() ]
+        #if no moves, check to see why:
+        #case 1: can move anywhere
+        #case 2: is a tie
+        if (len(moves) == 0):
+            for board in grid:
+                new_moves = board.get_actions()
+                new_actions = new_actions + [ (i, new_move) for new_move in new_moves]
+        return actions
 
     def start(self):
         #ask for which big board, which small board
@@ -141,6 +146,7 @@ class SubBoard:
         for index in range(self.size):
             print(self.grid[index])
 
+    #for printing purposes
     def getRow(self, row):
         return self.grid[3*row:3*row+3]
 
