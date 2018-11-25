@@ -11,7 +11,7 @@ import game
 
 class Simulate:
 
-    def __init__(agent1 = RandomAgent(), agent2 = RandomAgent(), game = game.SuperTicTacToe(verbose = 0)):
+    def __init__(self, agent1 = random_agent.RandomAgent(), agent2 = random_agent.RandomAgent(), game = game.SuperTicTacToe(verbose = 0)):
         self.agent1 = agent1
         self.agent2 = agent2
         self.game = game
@@ -28,4 +28,4 @@ class Simulate:
                 break
             big, small = self.agent1(self.game.get_actions())
             self.game.update(big,small)
-        print(results)
+        print (self.game.printBoard())

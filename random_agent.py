@@ -9,7 +9,7 @@ import random
 
 class RandomAgent:
 
-    def __init__(seed = 221):
+    def __init__(self, seed = 221):
         self.rand = random.seed(seed)
 
     def start(self):

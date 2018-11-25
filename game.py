@@ -13,7 +13,7 @@ import os.path
 
 class SuperTicTacToe:
 
-    def __init__(self, rows = 3, cols = 3, numPlayers = 2, versbose = 2):
+    def __init__(self, rows = 3, cols = 3, numPlayers = 2, verbose = 2):
         self.size = rows * cols
         self.grid = [ SubBoard() for col in range(rows * cols) ]
         self.numPlayers = numPlayers
