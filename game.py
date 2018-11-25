@@ -37,9 +37,8 @@ class SuperTicTacToe:
                 print("Error! Please enter an integer (1-9)")
 
     def get_actions(self):
-        actions = self.grid[self.currBigBoard].get_actions()
-        #if no actions left, check to see if
-        if (len(actions) == 0):
+        return self.grid[self.currBigBoard].get_actions()
+
 
 
 
