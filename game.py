@@ -36,6 +36,13 @@ class SuperTicTacToe:
             else:
                 print("Error! Please enter an integer (1-9)")
 
+    def get_actions(self):
+        actions = self.grid[self.currBigBoard].get_actions()
+        #if no actions left, check to see if
+        if (len(actions) == 0):
+
+
+
     def start(self):
         #ask for which big board, which small board
         print("Welcome to SuperTicTacToe!")
@@ -66,6 +73,7 @@ class SuperTicTacToe:
 
 
     def is_end(self):
+        if (self.get_actions() == 0): return True
         winners = [ board.winner for board in self.grid ]
         if winners[0] == winners[3] == winners[6] != -1 : return True
         if winners[1] == winners[4] == winners[7] != -1 : return True
@@ -111,15 +119,6 @@ class SuperTicTacToe:
 
         for b in board:
             print (b)
-
-# class BigBoard:
-#
-#     def __init__(self, rows = 3, cols = 3):
-#         self.grid = [ SmallBoard() for col in range(rows * cols)]
-#
-#     def get_big_board(self):
-#         return self.grid
-
 
 class SubBoard:
 

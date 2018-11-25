@@ -1,9 +1,6 @@
 import game
 
 
-
-
-
 def main():
     g = game.SuperTicTacToe()
     g.start()
