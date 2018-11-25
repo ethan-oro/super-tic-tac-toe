@@ -6,15 +6,16 @@ uniform random probability given a set of possible moves
 '''
 
 import random
+import time
 
 class RandomAgent:
 
-    def __init__(self, seed = 221):
-        self.rand = random.seed(seed)
+    def __init__(self):
+        random.seed(time.time())
 
     def start(self):
-        return (self.rand.randint(0, 9), self.rand.randint(0, 9))
+        return (random.randint(0, 8), random.randint(0, 8))
 
     def chooseMove(self, actions):
-        move = actions[self.rand.randint(0, len(actions))]
+        move = actions[random.randint(0, len(actions) - 1)]
         return move[0], move[1]

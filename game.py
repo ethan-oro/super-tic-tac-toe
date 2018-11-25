@@ -20,6 +20,7 @@ class SuperTicTacToe:
         self.turn = 0
         self.currBigBoard = 0
         verbose = 2
+        self.winners = [ -1 for col in range(rows * cols) ]
 
 
     def get_user_action(self, boardName, is_open):
@@ -41,10 +42,10 @@ class SuperTicTacToe:
         #if no moves, check to see why:
         #case 1: can move anywhere
         #case 2: is a tie
-        if (len(moves) == 0):
-            for board in grid:
-                new_moves = board.get_actions()
-                new_actions = new_actions + [ (i, new_move) for new_move in new_moves]
+        if (len(actions) == 0):
+            for i in range(len(self.grid)):
+                new_moves = self.grid[i].get_actions()
+                actions = actions + [ (i, new_move) for new_move in new_moves]
         return actions
 
     def start(self):
@@ -64,7 +65,10 @@ class SuperTicTacToe:
         if (val == False):
             print ("ERROR")
         self.turn = 0 if self.turn == 1 else 1
+        result = self.grid[big_val].get_winner()
+        self.winners[big_val] = -1 if result == False else result
         self.currBigBoard = small_val
+        #update self.winners
 
     #prompts for a move and
     def move(self):
@@ -77,20 +81,12 @@ class SuperTicTacToe:
 
 
     def is_end(self):
-        if (self.get_actions() == 0): return True
-        winners = [ board.winner for board in self.grid ]
-        if winners[0] == winners[3] == winners[6] != -1 : return True
-        if winners[1] == winners[4] == winners[7] != -1 : return True
-        if winners[2] == winners[5] == winners[8] != -1 : return True
-        if winners[0] == winners[1] == winners[2] != -1 : return True
-        if winners[3] == winners[4] == winners[5] != -1 : return True
-        if winners[6] == winners[7] == winners[8] != -1 : return True
-        if winners[0] == winners[4] == winners[8] != -1 : return True
-        if winners[2] == winners[4] == winners[6] != -1 : return True
+        if (self.get_winner() != False): return True
+        if (self.is_tie() != False): return True
         return False
 
     def get_winner(self):
-        winners = [ board.winner for board in self.grid ]
+        winners = self.winners
         if winners[0] == winners[3] == winners[6] != -1 : return winners[0]
         if winners[1] == winners[4] == winners[7] != -1 : return winners[1]
         if winners[2] == winners[5] == winners[8] != -1 : return winners[2]
@@ -101,6 +97,9 @@ class SuperTicTacToe:
         if winners[2] == winners[4] == winners[6] != -1 : return winners[4]
         return False
 
+    #if board is full
+    def is_tie(self):
+        return self.get_actions() == 0
 
     def printBoard(self):
         ver = ' || '
@@ -123,6 +122,14 @@ class SuperTicTacToe:
 
         for b in board:
             print (b)
+
+    def printWinner(self):
+        winner = self.get_winner()
+        if (winner == False):
+            print ("tie!")
+        else:
+            print (winner + ' won!')
+
 
 class SubBoard:
 
