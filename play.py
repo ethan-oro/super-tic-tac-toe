@@ -1,3 +1,10 @@
+'''
+
+play.py is a class intded to call simulate or allow for a user to play
+
+
+'''
+
 import simulate
 import collections
 import random_agent
