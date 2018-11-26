@@ -11,10 +11,11 @@ import game as g
 
 class Simulate:
 
-    def __init__(self, agent1 = random_agent.RandomAgent(), agent2 = random_agent.RandomAgent(), game = g.SuperTicTacToe(verbose = 0)):
+    def __init__(self, agent1, agent2, game, verbose = 2):
         self.agent1 = agent1
         self.agent2 = agent2
         self.game = game
+        self.verbose = verbose
 
     def run(self):
         big, small = self.agent1.start()
@@ -22,11 +23,22 @@ class Simulate:
         while (True):
             if (self.game.is_end() == True):
                 break
-            big, small = self.agent2.chooseMove(self.game.get_actions())
+            actions = self.game.get_actions()
+            if (len(actions) == 0):
+                print ("ERROR :: ")
+                print ('is_end() : ' + str(self.game.is_end()))
+                print ('is_tie : ' + str(self.game.is_tie()))
+            big, small = self.agent2.chooseMove(actions)
             self.game.update(big,small)
             if (self.game.is_end() == True):
                 break
-            big, small = self.agent1.chooseMove(self.game.get_actions())
+            actions = self.game.get_actions()
+            if (len(actions) == 0):
+                print ("ERROR :: ")
+                print ('is_end() : ' + str(self.game.is_end()))
+            big, small = self.agent1.chooseMove(actions)
             self.game.update(big,small)
-        self.game.printBoard()
-        self.game.printWinner()
+        if (self.verbose != 0):
+            self.game.printBoard()
+            self.game.printWinner()
+        return self.game.get_winner()

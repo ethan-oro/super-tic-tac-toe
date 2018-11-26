@@ -17,5 +17,8 @@ class RandomAgent:
         return (random.randint(0, 8), random.randint(0, 8))
 
     def chooseMove(self, actions):
-        move = actions[random.randint(0, len(actions) - 1)]
+        if (len(actions) == 1):
+            move = actions[0]
+        else:
+            move = actions[random.randint(0, len(actions) - 1)]
         return move[0], move[1]
