@@ -19,7 +19,7 @@ def main():
     numTrials = 10000
     print ('out of ' + str(numTrials) + ' games....')
     for i in range(0, numTrials):
-        game = simulate.Simulate(agent1 = random_agent.RandomAgent(), agent2 = random_agent.RandomAgent(), game = g.SuperTicTacToe(verbose = 0), verbose = 0)
+        game = simulate.Simulate(agent1 = random_agent.RandomAgent(), agent2 = random_agent.RandomAgent(), game = g.SuperTicTacToe(verbose = 0), verbose = 2)
         result = game.run()
         wins[str(result)] += 1
     print ('x won ' + str(wins['x'] / float(numTrials)) + '% of the time')
