@@ -61,9 +61,12 @@ class SuperTicTacToe:
 
     #updates the state of the board based on the last move
     def update(self, big_val, small_val):
-        val = self.grid[big_val].update(self.turn, small_val)
-        if (val == False):
+        response = self.grid[big_val].update(self.turn, small_val)
+        if (response == False):
             print ("ERROR")
+            self.printBoard()
+            print ('big_val' + str(big_val) + ' ' + 'small_val' + str(small_val))
+            raise ValueError('Tried to overwrite a space that already exists')
         self.turn = 0 if self.turn == 1 else 1
         result = self.grid[big_val].get_winner()
         self.winners[big_val] = -1 if result == False else result
@@ -81,9 +84,7 @@ class SuperTicTacToe:
 
 
     def is_end(self):
-        if (self.get_winner() != False): return True
-        if (self.is_tie() != False): return True
-        return False
+        return self.is_tie() == True or self.get_winner() != False
 
     def get_winner(self):
         winners = self.winners
@@ -99,12 +100,12 @@ class SuperTicTacToe:
 
     #if board is full
     def is_tie(self):
-        return self.get_actions() == 0
+        return len(self.get_actions()) == 0
 
     def printBoard(self):
         ver = ' || '
         hor = ' = '
-        board = [ '' for i in range (0, 22) ]
+        board = [ '' for i in range (0, 18) ]
         for k in range(0, 3):
             p = 0
             for i in range(k*6, k*6+5):
@@ -195,6 +196,6 @@ class SubBoard:
             return False
         else:
             self.grid[location] = self.characters[characterIndex]
-            if (self.is_end()):
+            if (self.is_end() and self.winner == -1):
                 self.winner = self.characters.index(self.get_winner())
             return True
