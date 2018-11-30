@@ -19,7 +19,8 @@ class SuperTicTacToe:
         self.numPlayers = numPlayers
         self.turn = 0
         self.currBigBoard = 0
-        verbose = 2
+        self.is_first = True
+        self.verbose = 2
         self.winners = [ -1 for col in range(rows * cols) ]
 
 
@@ -37,15 +38,39 @@ class SuperTicTacToe:
             else:
                 print("Error! Please enter an integer (1-9)")
 
+    # def get_actions(self):
+    #     actions = [ (self.currBigBoard, move) for move in self.grid[self.currBigBoard].get_actions() ]
+    #     #if no moves, check to see why:
+    #     #case 1: can move anywhere
+    #     #case 2: is a tie
+    #     if (len(actions) == 0):
+    #         for i in range(len(self.grid)):
+    #             new_moves = self.grid[i].get_actions()
+    #             actions = actions + [ (i, new_move) for new_move in new_moves]
+    #     return actions
+
+    def initial_actions(self):
+        self.is_first = False
+        actions = []
+        for i in range(0,3):
+            for j in range(0,3):
+                actions.append((i,j))
+        return actions
+
     def get_actions(self):
-        actions = [ (self.currBigBoard, move) for move in self.grid[self.currBigBoard].get_actions() ]
+        if self.is_first == True:
+            return self.initial_actions()
+        actions = []
+        if (self.winners[self.currBigBoard] == -1):
+            actions = [ (self.currBigBoard, move) for move in self.grid[self.currBigBoard].get_actions() ]
         #if no moves, check to see why:
         #case 1: can move anywhere
         #case 2: is a tie
         if (len(actions) == 0):
             for i in range(len(self.grid)):
-                new_moves = self.grid[i].get_actions()
-                actions = actions + [ (i, new_move) for new_move in new_moves]
+                if (self.winners[i] == -1):
+                    new_moves = self.grid[i].get_actions()
+                    actions = actions + [ (i, new_move) for new_move in new_moves]
         return actions
 
     def start(self):
@@ -69,13 +94,13 @@ class SuperTicTacToe:
             raise ValueError('Tried to overwrite a space that already exists')
         self.turn = 0 if self.turn == 1 else 1
         result = self.grid[big_val].get_winner()
-        self.winners[big_val] = -1 if result == False else result
+        self.winners[big_val] = -1 if (result == False) else result
         self.currBigBoard = small_val
         #update self.winners
 
     #prompts for a move and
     def move(self):
-        if (versbose == 2):
+        if (self.versbose == 2):
             self.printBoard()
         small_board = self.grid[self.currBigBoard]
         print("You need to play in square "+ str(self.currBigBoard + 1) + " of the big board")
@@ -97,6 +122,15 @@ class SuperTicTacToe:
         if winners[0] == winners[4] == winners[8] != -1 : return winners[4]
         if winners[2] == winners[4] == winners[6] != -1 : return winners[4]
         return False
+
+    def get_reward(self):
+        winner = self.get_winner()
+        #if tie, 'reward' is 0
+        if winner == False: return 0
+        #if we won, reward is 1!
+        if (winner == 'x'): return 1
+        #if we lost, reward is 0
+        return -1
 
     #if board is full
     def is_tie(self):

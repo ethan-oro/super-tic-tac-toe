@@ -7,8 +7,9 @@ uniform random probability given a set of possible moves
 
 import random
 import time
+from agent import Agent
 
-class RandomAgent:
+class RandomAgent(Agent):
 
     def __init__(self):
         random.seed(time.time())
