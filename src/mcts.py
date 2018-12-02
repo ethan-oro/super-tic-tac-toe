@@ -2,7 +2,6 @@
 
 mcts.py implements monte carlo tree search for super tic tac toe
 
-
 '''
 from agent import Agent
 from game import *

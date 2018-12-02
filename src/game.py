@@ -96,6 +96,7 @@ class SuperTicTacToe:
         result = self.grid[big_val].get_winner()
         self.winners[big_val] = -1 if (result == False) else result
         self.currBigBoard = small_val
+        return self
         #update self.winners
 
     #prompts for a move and
