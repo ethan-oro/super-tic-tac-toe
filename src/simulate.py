@@ -11,7 +11,7 @@ import game as g
 
 class Simulate:
 
-    def __init__(self, agent1, agent2, game, verbose = 2):
+    def __init__(self, agent1, agent2, game, verbose = 1):
         self.agent1 = agent1
         self.agent2 = agent2
         self.game = game
@@ -19,8 +19,9 @@ class Simulate:
 
     def run(self, trial):
         if (self.verbose == 2):
-            print 'game: ' + str(trial)
-        print "agnet 1 moved"
+            print ('game: ' + str(trial))
+        if (self.verbose == 2):
+            print ("agnet 1 moved")
         big, small = self.agent1.start(self.game)
         self.game.update(big, small)
         while (True):
@@ -35,14 +36,16 @@ class Simulate:
             self.game.update(big,small)
             if (self.game.is_end() == True):
                 break
-            print "agent 2 moved"
+            if (self.verbose == 2):
+                print ("agent 2 moved")
             actions = self.game.get_actions()
             if (len(actions) == 0):
                 print ("ERROR :: ")
                 print ('is_end() : ' + str(self.game.is_end()))
             big, small = self.agent1.pickMove(self.game)
             self.game.update(big,small)
-            print "agent 1 moved"
+            if (self.verbose == 2):
+                print ("agent 1 moved")
         if (self.verbose != 0):
             self.game.printWinner()
             if (self.verbose == 2):

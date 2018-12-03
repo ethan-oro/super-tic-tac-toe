@@ -3,13 +3,16 @@
 mcts.py implements monte carlo tree search for super tic tac toe
 
 '''
-from agent import Agent
-from game import *
+#sys imports
 from collections import defaultdict
 import random
 import copy
 import math
 import time
+
+#class imports
+from agent import Agent
+from game import *
 
 class MonteCarloTreeSearch(Agent):
 
