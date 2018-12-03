@@ -41,3 +41,6 @@ class Heuristics(grid):
                     wins += 1
             return wins
         return 0
+
+    def hello(self):
+        return 0
