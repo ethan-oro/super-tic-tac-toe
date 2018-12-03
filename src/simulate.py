@@ -20,6 +20,7 @@ class Simulate:
     def run(self, trial):
         if (self.verbose == 2):
             print 'game: ' + str(trial)
+        print "agnet 1 moved"
         big, small = self.agent1.start(self.game)
         self.game.update(big, small)
         while (True):
