@@ -21,7 +21,7 @@ class SuperTicTacToe:
         self.currBigBoard = 0
         self.is_first = True
         self.verbose = 2
-        self.winners = [ -1 for col in range(rows * cols) ]
+        self.winners = [-1 for col in range(rows * cols)]
 
 
     def get_user_action(self, boardName, is_open):
