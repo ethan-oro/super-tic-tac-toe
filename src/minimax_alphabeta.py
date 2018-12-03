@@ -5,8 +5,9 @@ minimax.py implements a minimax agent
 '''
 
 from agent import Agent
-from hueristic
+import heuristic
 import copy
+import time
 
 class MiniMax(Agent):
 
@@ -19,51 +20,45 @@ class MiniMax(Agent):
         return (2,2)
 
     def evaluationFunction(self, state):
-        pass
+        static = self.heuristic.calcTotValueForAgent('x')
+        dynamic = self.heuristic.agentCanWin(0)
+        return static + dynamic
 
     def pickMove(self, state):
+        self.heuristic = heuristic.Heuristics(state, state.grid)
         new_state = copy.deepcopy(state)
-        utility, action = self.recurse(state, self.depth)
+        start_time = time.time()
+        utility, action = self.recurse(state, self.depth, -10000000, 100000000)
+        print (time.time() - start_time)
         return action
 
     def recurse(self, state, depth, alpha, beta):
-        print (depth)
         actions = state.get_actions()
         if (state.is_end()): #isEnd(s)?
             return (state.get_reward(), None)
         elif (depth == 0): #d=0?
-            return (self.evaluationFunction(state), None)
+            val = self.evaluationFunction(state)
+            return (val, None)
         elif (state.turn == 0): #Player(s) = agent?
             vals = []
             for action in actions:
                 new_state = copy.deepcopy(state)
-                score = (self.recurse(new_state.update(action[0], action[1]), depth)[0]
-
-                vals.append(score, action))
-
+                score = (self.recurse(new_state.update(action[0], action[1]), depth, alpha, beta))[0]
+                vals.append((score, action))
                 if score > alpha:
-                    alpha = score_next
-                    action = next_action
-
-                if alpha >= beta
+                    alpha = score
+                if alpha >= beta:
                     break
-
-
             return max(vals)
 
         else: #Player(s) = agent is last last?
             vals = []
             for action in actions:
                 new_state = copy.deepcopy(state)
-                score = (self.recurse(new_state.update(action[0], action[1]), depth - 1)[0]
-
-                vals.append(score, action))
-
-
+                score = (self.recurse(new_state.update(action[0], action[1]), depth - 1, alpha, beta))[0]
+                vals.append((score, action))
                 if score < beta:
                     beta = score
-                    action = next_action
-
                 if alpha >= beta:
                     break
 

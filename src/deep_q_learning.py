@@ -36,7 +36,7 @@ class DeepQLearning(Agent):
             self.vals = json.load(open(file, 'r'))
             self.update()
 
-     def train(self, x, y):
+    def train(self, x, y):
         self.model.fit(np.asarray(x), np.asarray(y), verbose=0)
 
     def board_to_input(self, state):
