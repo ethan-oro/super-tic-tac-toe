@@ -15,6 +15,7 @@ class MiniMax(Agent):
 
     def __init__(self, depth = 1):
         self.depth = depth
+        self.times = []
 
     def start(self, state):
         # move = self.pickMove(state)
@@ -33,7 +34,7 @@ class MiniMax(Agent):
         new_state = copy.deepcopy(state)
         utility, action = self.recurse(state, self.depth)
         # print (self.count)
-        # print (time.time() - start_time)
+        self.times.append(time.time() - start_time)
         return action[0], action[1]
 
     def recurse(self, state, depth):

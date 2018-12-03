@@ -13,6 +13,7 @@ class MiniMax(Agent):
 
     def __init__(self, depth = 3):
         self.depth = depth
+        self.times = []
 
     def start(self, state):
         # move = self.pickMove(state)
@@ -20,16 +21,17 @@ class MiniMax(Agent):
         return (2,2)
 
     def evaluationFunction(self, state):
+        self.heuristic = heuristic.Heuristics(state, state.grid)
         static = self.heuristic.calcTotValueForAgent('x')
         dynamic = self.heuristic.agentCanWin(0)
         return static + dynamic
 
+
     def pickMove(self, state):
-        self.heuristic = heuristic.Heuristics(state, state.grid)
         new_state = copy.deepcopy(state)
         start_time = time.time()
         utility, action = self.recurse(state, self.depth, -10000000, 100000000)
-        print (time.time() - start_time)
+        self.times.append(time.time() - start_time)
         return action
 
     def recurse(self, state, depth, alpha, beta):

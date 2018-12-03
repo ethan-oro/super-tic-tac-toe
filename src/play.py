@@ -42,8 +42,9 @@ def main2():
     # g.start()
     # g.play()
     wins = collections.defaultdict(int)
-    numTrials = 100
+    numTrials = 5
     print ('out of ' + str(numTrials) + ' games....')
+    game = None
     for i in range(0, numTrials):
         # game = simulate.Simulate(agent1 = mcts.MonteCarloTreeSearch(g.SuperTicTacToe(verbose = 0)), agent2 = random_agent.RandomAgent(), game = g.SuperTicTacToe(verbose = 0), verbose = 0)
         # result = game.run(trial)
@@ -56,9 +57,36 @@ def main2():
         )
         result = game.run(i)
         wins[str(result)] += 1
+    print(game.time())
     print ('x won ' + str(wins['x'] / float(numTrials)) + '% of the time')
     print ('o won ' + str(wins['o'] / float(numTrials)) + '% of the time')
     print ('tie ' + str(wins['False'] / float(numTrials)) + '% of the time')
+
+def main3():
+    # g = game.SuperTicTacToe()
+    # g.start()
+    # g.play()
+    wins = collections.defaultdict(int)
+    numTrials = 1000
+    print ('out of ' + str(numTrials) + ' games....')
+    game = None
+    for i in range(0, numTrials):
+        # game = simulate.Simulate(agent1 = mcts.MonteCarloTreeSearch(g.SuperTicTacToe(verbose = 0)), agent2 = random_agent.RandomAgent(), game = g.SuperTicTacToe(verbose = 0), verbose = 0)
+        # result = game.run(trial)
+        game = simulate.Simulate(\
+            # agent1 = deep_q_learning.DeepQLearning(),\
+            agent1 = random_agent.RandomAgent(),\
+            agent2 = random_agent.RandomAgent(),\
+            game = g.SuperTicTacToe(verbose = 0),\
+            verbose = 1\
+        )
+        result = game.run(i)
+        wins[str(result)] += 1
+    # print(game.time())
+    print ('x won ' + str(wins['x'] / float(numTrials)) + '% of the time')
+    print ('o won ' + str(wins['o'] / float(numTrials)) + '% of the time')
+    print ('tie ' + str(wins['False'] / float(numTrials)) + '% of the time')
+
 
 if __name__ == '__main__':
     main2()

@@ -51,3 +51,6 @@ class Simulate:
             if (self.verbose == 2):
                 self.game.printBoard()
         return self.game.get_winner()
+
+    def time(self):
+        print ('agent1', sum(self.agent1.times) / len(self.agent1.times))

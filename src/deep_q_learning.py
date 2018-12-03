@@ -78,8 +78,6 @@ class DeepQLearning(Agent):
         prev_value = self.predict(last_state)
         self.vals[last_state] = prev_value + 0.2 * (prediction - prev_value)
 
-
-
     def start(self):
         return (2,2)
 
