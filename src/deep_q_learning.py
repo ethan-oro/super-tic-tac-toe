@@ -36,7 +36,7 @@ class DeepQLearning(Agent):
             self.vals = json.load(open(file, 'r'))
             self.update()
 
-     def train(self, x, y):
+    def train(self, x, y):
         self.model.fit(np.asarray(x), np.asarray(y), verbose=0)
 
     def board_to_input(self, state):
@@ -77,8 +77,6 @@ class DeepQLearning(Agent):
         prediction = self.get_pred(player, board, state)
         prev_value = self.predict(last_state)
         self.vals[last_state] = prev_value + 0.2 * (prediction - prev_value)
-
-
 
     def start(self):
         return (2,2)
