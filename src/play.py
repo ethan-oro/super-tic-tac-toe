@@ -4,13 +4,14 @@ play.py is a class intded to call simulate or allow for a user to play
 
 
 '''
-
+#class imports
 import simulate
 import collections
 import random_agent
 import game as g
 import mcts
 import minimax
+import deep_q_learning
 
 def main():
     # g = game.SuperTicTacToe()
@@ -22,7 +23,12 @@ def main():
     for i in range(0, numTrials):
         # game = simulate.Simulate(agent1 = mcts.MonteCarloTreeSearch(g.SuperTicTacToe(verbose = 0)), agent2 = random_agent.RandomAgent(), game = g.SuperTicTacToe(verbose = 0), verbose = 0)
         # result = game.run(trial)
-        game = simulate.Simulate(agent1 = minimax.MiniMax(), agent2 = random_agent.RandomAgent(), game = g.SuperTicTacToe(verbose = 0), verbose = 2)
+        game = simulate.Simulate(\
+            # agent1 = deep_q_learning.DeepQLearning(),\
+            agent1 = minimax.MiniMax()
+            agent2 = random_agent.RandomAgent(),\
+            game = g.SuperTicTacToe(verbose = 0), verbose = 1\
+        )
         result = game.run(i)
         wins[str(result)] += 1
     print ('x won ' + str(wins['x'] / float(numTrials)) + '% of the time')
