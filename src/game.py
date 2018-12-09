@@ -133,6 +133,15 @@ class SuperTicTacToe:
         #if we lost, reward is 0
         return -1
 
+    def get_new_reward(self):
+        winner = self.get_winner()
+        #if tie, 'reward' is 0
+        if winner == False: return 0
+        #if we won, reward is 1!
+        if (winner == 'x'): return 1000000
+        #if we lost, reward is 0
+        return -1000000
+
     #if board is full
     def is_tie(self):
         return len(self.get_actions()) == 0

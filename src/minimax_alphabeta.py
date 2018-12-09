@@ -28,8 +28,8 @@ class MiniMax(Agent):
 
 
     def pickMove(self, state):
-        new_state = copy.deepcopy(state)
         start_time = time.time()
+        new_state = copy.deepcopy(state)
         utility, action = self.recurse(state, self.depth, -10000000, 100000000)
         self.times.append(time.time() - start_time)
         return action
@@ -37,7 +37,7 @@ class MiniMax(Agent):
     def recurse(self, state, depth, alpha, beta):
         actions = state.get_actions()
         if (state.is_end()): #isEnd(s)?
-            return (state.get_reward(), None)
+            return (state.get_new_reward(), None)
         elif (depth == 0): #d=0?
             val = self.evaluationFunction(state)
             return (val, None)

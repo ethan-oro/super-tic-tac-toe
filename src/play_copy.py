@@ -42,7 +42,7 @@ def main2():
     # g.start()
     # g.play()
     wins = collections.defaultdict(int)
-    numTrials = 500
+    numTrials = 100
     print ('out of ' + str(numTrials) + ' games....')
     game = None
     for i in range(0, numTrials):
@@ -50,7 +50,7 @@ def main2():
         # result = game.run(trial)
         game = simulate.Simulate(\
             # agent1 = deep_q_learning.DeepQLearning(),\
-            agent1 = minimax.MiniMax(depth = 1), \
+            agent1 = minimax_alphabeta.MiniMax(depth = 2), \
             agent2 = random_agent.RandomAgent(),\
             game = g.SuperTicTacToe(verbose = 0),\
             verbose = 1\
