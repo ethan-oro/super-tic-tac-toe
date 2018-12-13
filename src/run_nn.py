@@ -24,7 +24,7 @@ def main():
     print ('running....')
     for i in range(numberOfSetsOfGames):
         agent1.reset()
-        sim = simulate.Simulate(agent1, agent2, g.SuperTicTacToe(verbose = 0), verbose = 0)
+        sim = simulate.Simulate(agent1, agent2, g.SuperTicTacToe(verbose = 0), verbose = 2)
         result = sim.run(i)
         agent1.update()
         wins[str(result)] += 1
