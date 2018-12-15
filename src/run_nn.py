@@ -16,7 +16,7 @@ def main():
     print (agent1.model.inputs)
     agent2 = random_agent.RandomAgent()
     wins = collections.defaultdict(int)
-    numberOfSetsOfGames = 1000
+    numberOfSetsOfGames = 100
     if os.path.isfile(LEARNING_FILE):
         agent1.loadLearning(LEARNING_FILE)
         print('loaded learning')
@@ -24,12 +24,13 @@ def main():
     print ('running....')
     for i in range(numberOfSetsOfGames):
         agent1.reset()
-        sim = simulate.Simulate(agent1, agent2, g.SuperTicTacToe(verbose = 0), verbose = 2)
+        gg = g.SuperTicTacToe(verbose = 0)
+        sim = simulate.Simulate(agent1, agent2, gg, verbose = 0)
         result = sim.run(i)
-        agent1.update()
+        agent1.update(gg)
         wins[str(result)] += 1
-        if (i % 100 == 0):
-            print (i)
+        if i%1000 == 0:
+            print(i)
     print ('x won ' + str(wins['x'] / float(numberOfSetsOfGames)) + '% of the time')
     print ('o won ' + str(wins['o'] / float(numberOfSetsOfGames)) + '% of the time')
     print ('tie ' + str(wins['False'] / float(numberOfSetsOfGames)) + '% of the time')

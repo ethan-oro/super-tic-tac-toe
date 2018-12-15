@@ -21,12 +21,13 @@ class DeepQLearning(Agent):
 
     def __init__(self):
         self.vals = {}
-        self.INPUTS = {' ' : 0, 'x' :1, 'o' : -1}
+        self.INPUTS = {' ' : 0, 'x' :1, 'o' : -3}
 
     #defines our nn that has an input for each board square
     def define_model(self):
         self.model = Sequential()
         self.model.add(Dense(81, input_dim=81, activation='relu'))
+        self.model.add(Dense(9, activation='relu'))
         self.model.add(Dense(1, activation='linear', kernel_initializer='glorot_uniform'))
         self.model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
         #uses keras.utils plot_model function
@@ -40,42 +41,90 @@ class DeepQLearning(Agent):
     def train(self, x, y):
         x = np.asarray(x)
         y = np.asarray(y)
-        self.model.fit(x, y, epochs = 10, verbose=0)
+        hist = self.model.fit(x, y, verbose=0)
 
     def board_to_input(self, state):
         board = [ x for sub in state.grid for x in sub.grid ]
         return list(map(lambda x : self.INPUTS.get(x), board))
 
+    def board_to_output(self, state):
+        board = [ x for sub in state.grid for x in sub.grid ]
+        return list(map(lambda x : str(self.INPUTS.get(x)), board))
+
+
     def predict(self, x):
         asdf = np.array(self.board_to_input(x)).reshape(1,-1)
         return self.model.predict(asdf)[0]
 
-    def update(self):
+    def update(self, state):
+        self.get_pred(0, state.grid, state)
+        return
         x = []
         y = []
         for k,v in self.vals.items():
             x.append(self.board_to_input(k))
             y.append(v)
+        if len(x) == 0:
+            return
         self.train(x, y)
 
     def reset(self):
         self.vals = {}
 
+    def save(self, state, label):
+        l = self.board_to_output(state)
+        l.append(str(label))
+        with open("data.txt", "a") as myfile:
+            myfile.write(' '.join(l) + '\n')
+
     def get_pred(self, player, board, state):
         winner = state.get_winner()
-        if winner == 0: #x won
-            y = 1.0 if player == 0 else 0.0
-            self.vals[state] = y
-        elif winner == 1: #o won
-            y = 1.0 if player == 1 else 0.0
-            self.vals[state] = y
-        elif state.is_tie(): #is a tie
-            y = 0.5
-            self.vals[state] = y
+        if winner == False:
+            z = self.predict(state)
+            if(isinstance(z, int)):
+                y = z
+            else:
+                y = z[0]
         else:
-            y = self.predict(state)
+            # print (winner)
+            # print (state.printBoard())
+            if winner == 'x': #x won
+                y = 1.0
+                # print (y)
+                self.save(state, y)
+                self.vals[state] = y
+            elif winner == 'o': #o won
+                y = -1.0
+                # print (y)
+                self.save(state, y)
+                self.vals[state] = y
+            elif state.is_tie(): #is a tie
+                y = 0.5
+                # print (y)
+                self.save(state, y)
+                self.vals[state] = y
+            else:
+                raise ValueError('This should never happen')
         return y
 
+    def trainLearning(self):
+        x = []
+        y = []
+        c = 0
+        with open ('data.txt', 'r') as file:
+            for c, line in enumerate(file):
+                x.append([ int(x) for x in line.split(' ')[:81] ])
+                q = float(line.split(' ')[81:][0])
+                # print (q)
+                if q == 0.5:
+                    q = 0.0
+                    print('e')
+                y.append(q)
+                c+=1
+                if c % 1000 == 0:
+                    print (c)
+        print ('training....')
+        self.train(x, y)
 
     def learn(self, player, state, last_state):
         board = state.get_grid()
@@ -84,7 +133,8 @@ class DeepQLearning(Agent):
         self.vals[last_state] = prev_value + 0.2 * (prediction - prev_value)
 
     def start(self, state):
-        return (2,2)
+        a, b = self.pickMove(state)
+        return (a,b)
 
     def makeMove(self, state, action):
         new_state = copy.deepcopy(state)
@@ -92,9 +142,9 @@ class DeepQLearning(Agent):
         return new_state
 
     def pickMove(self, state):
-        return self.pickMoveNoGuess(state)
+        # return self.pickMoveNoExplore(state)
         actions = state.get_actions()
-        if (random.uniform(0,1) < 0.8):
+        if (random.uniform(0,1) < 0.75):
             moves = {}
             for action in actions:
                 next_state = self.makeMove(state, action)
@@ -105,7 +155,7 @@ class DeepQLearning(Agent):
             move = actions[random.randint(0, len(actions) - 1)]
         return move[0], move[1]
 
-    def pickMoveNoGuess(self, state):
+    def pickMoveNoExplore(self, state):
         actions = state.get_actions()
         moves = {}
         for action in actions:
@@ -122,4 +172,5 @@ class DeepQLearning(Agent):
         self.model.save_weights(filename)
 
     def loadLearning(self, filename):
-        self.model.load_weights(filename, by_name=False)
+        # self.model.load_weights(filename, by_name=False)
+        self.trainLearning()
