@@ -1,7 +1,7 @@
 # Adversarial Agents: Using Novel Machine Learning Strategies to Win SuperTicTacToe
 Mortaza Moradi (mortaza@stanford.edu), Faraz Abassi (faraz13@stanford.edu) and Ethan Oro (eoro@stanford.edu)
 
-## Summary of Files:
+## Summary of Files
 
 - play.py is a class intended to call simulate or allow for a user to play
 - agent.py is an abstract agent class that outlines functions that each agent needs
@@ -20,3 +20,7 @@ supertictactoe between two agents
 - heurisitc.py is a file that contains all of the different heuristic functions that we use throughout various agents
 - deep_q_learning.py is a file that implements a neural network model that tries to estimate the best action at each game state
 - run_nn.py is a file that helps simulates a neural network's training
+
+## Instructions
+
+In order to run these simulations, go into play.py. In this file, you can specify (1) the agents you want to play, (2) the number of games and (3) the verbosity (1-3) for how much you would want printed out after each game.
